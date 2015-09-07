@@ -1,14 +1,16 @@
 var HTTPS = require('https');
-
+var responseMap = new Map();
+responseMap.set("!test1", "Test 1 Successful!");
+responseMap.set("!test2", "Test 2 Successful!");
 var botID = process.env.BOT_ID;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-      botRegex = /^\!test$/;
+      botRegex = /^\!/;
 
   if(request.text && botRegex.test(request.text)) {
     this.res.writeHead(200);
-    postMessage();
+    postMessage(request.text);
     this.res.end();
   } else {
     console.log("don't care");
@@ -17,10 +19,16 @@ function respond() {
   }
 }
 
-function postMessage() {
+function postMessage(command) {
   var botResponse, options, body, botReq;
+  if(responseMap.has(command)){
+	botResponse = responseMap.get(command);
+  }
+  else{
+	console.log("Invalid command.");
+	botResponse = "Invalid command.";
+  }
 
-  botResponse = "Test successful!";
 
   options = {
     hostname: 'api.groupme.com',
