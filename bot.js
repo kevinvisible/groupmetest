@@ -1,7 +1,4 @@
 var HTTPS = require('https');
-var responseMap = new Map();
-responseMap.set("!test1", "Test 1 Successful!");
-responseMap.set("!test2", "Test 2 Successful!");
 var botID = process.env.BOT_ID;
 
 function respond() {
@@ -21,8 +18,11 @@ function respond() {
 
 function postMessage(command) {
   var botResponse, options, body, botReq;
-  if(responseMap.has(command)){
-	botResponse = responseMap.get(command);
+  if(command == "!test1"){
+	botResponse = "Test 1 Successful!";
+  }
+  else if(command == "!test2"){
+	botResponse = "Test 2 Successful!";
   }
   else{
 	console.log("Invalid command.");
